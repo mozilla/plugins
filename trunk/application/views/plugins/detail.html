@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% import "macros/platforms.html" as platforms %}
+{% import "macros/oses.html" as oses %}
+{% import "macros/statuses.html" as statuses %}
+
+{% block title %}
+    Plugin Detail :: {{plugin.name | e}}
+    {% if plugin.sandbox_profile_id %}
+        ({{ screen_name | e }} sandbox)
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <ul class="actions">
+        {% if plugin.sandbox_profile_id %}
+            {% set plugin_base as base_url ~ "profiles/" ~ screen_name|e ~ "/plugins/detail/" ~ plugin.pfs_id|urlencode|e %}
+            {% if plugin.is_allowed(authprofile, 'view') %}
+                <li><a href="{{base_url}}plugins/detail/{{plugin.pfs_id|urlencode|e}}">View original</a></li>
+            {% endif %}
+            {% if plugin.is_allowed(authprofile, 'deploy') %}
+                <li><a href="{{plugin_base}};deploy">Push changes live</a></li>
+            {% endif %}
+            {% if plugin.is_allowed(authprofile, 'requestpush') %}
+                <li><a href="{{plugin_base}};requestpush">Request approval for changes</a></li>
+            {% endif %}
+        {% else %}
+            {% set plugin_base as base_url ~ "plugins/detail/" ~ plugin.pfs_id|urlencode|e %}
+        {% endif %}
+        {% if not plugin.sandbox_profile_id and plugin.is_allowed(authprofile, 'copy') %}
+            <li><a href="{{plugin_base}};copy">Copy to sandbox</a></li>
+        {% endif %}
+        {% if plugin.is_allowed(authprofile, 'edit') %}
+            <li><a href="{{plugin_base}};edit">Edit details</a></li>
+        {% endif %}
+        {% if plugin.is_allowed(authprofile, 'delete') %}
+            <li><a href="{{plugin_base}};delete">Delete plugin</a></li>
+        {% endif %}
+        {% if plugin.is_allowed(authprofile, 'view') %}
+            <li><a href="{{plugin_base}}.json">JSON export</a></li>
+        {% endif %}
+    </ul>
+
+    <div class="meta">
+        {% if plugin.icon_url %}
+            <div class="icon">
+                <img src="{{plugin.icon_url}}" alt="Plugin icon" />
+            </div>
+        {% endif %}
+        {% if plugin.description %}
+            <div>
+                <h2>Description:</h2>
+                <p>{{plugin.description}}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <ul class="releases">
+        {% for version, version_releases in releases %}
+            <li class="release">
+            <div id="{{version | e}}" class="version">{{version | e}}</div>
+                <table class="version_releases">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>OS</th>
+                            <th>Status</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for release in version_releases %}
+                            <tr id="{{release.plugin.pfs_id}}-{{release.id}}">
+                                <td>{{platforms.readable(release.platform)}}</td>
+                                <td>{{oses.readable(release.os)}}</td>
+                                <td>{{statuses.readable(release.status_code)}}</td>
+                                <td><a href="{{release.url}}">Download / Details</a>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

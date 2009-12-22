@@ -1,0 +1,457 @@
+/**
+ * Main styles
+ */
+.clearfix:after {
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+.clearfix {display:inline-block;}
+/* Hide from IE Mac \*/
+	.clearfix {display:block;}
+/* End hide from IE Mac */
+.template, .templates { 
+    display: none;
+}
+body {
+    font: 14px arial;
+    margin: 0 14px 0 14px;
+    padding: 0;
+    background: transparent url(../img/background-feature.jpg) repeat-x top left;
+}
+
+#main {
+    position: relative;
+}
+#main .header {
+    position: relative;
+    height: 2.5em;
+    margin: 0;
+    padding: 0 0 0 0;
+    background: transparent url(../img/header-bg.png) repeat top left;
+    height: 56px;
+    color: #fff;
+}
+#main .header a {
+    color: #fff;
+    text-decoration: none;
+}
+#main .header .title {
+    font-size: 145%;
+    margin: 0;
+    padding: 0;
+    height: 56px;
+    line-height: 64px;
+    font-weight: normal;
+}
+#main .header .title .mozilla {
+    background: transparent url(../img/mozilla-logo.png) no-repeat -5px 0;
+    width: 140px;
+    overflow: hidden;
+    text-indent: 145px;
+    height: 56px;
+    display: block; 
+    float: left;
+}
+#main .header .secondary {
+    position: absolute;
+    font-size: 85%;
+    top: 0;
+    right: 14px;
+    height: 56px;
+    line-height: 64px;
+}
+#main .header .secondary ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#main .header .secondary ul li {
+    float: left;
+    margin: 0 0.25em 0 0.25em;
+    padding: 0 0.75em 0 0;
+    text-indent: 0;
+}
+#main .header .secondary ul li a {
+    font-weight: bold;
+}
+#main .header .secondary ul li a:hover {
+    text-decoration: underline;
+}
+#main .header .secondary ul li:after {
+    content: "";
+}
+#main .header .secondary ul li.search {
+    padding: 0 0 0 0;
+}
+#main .header .secondary ul li.search:after {
+    content: "";
+}
+#main .header .secondary .auth {
+    display: inline;
+}
+#main .header .secondary .search {
+    display: inline;
+}
+#main .header .secondary .search form {
+    display: inline;
+}
+#main .header .secondary #simple_search {
+    display: inline;
+}
+#main .header #advanced_search_toggle {
+    display: block;
+    width: 100%;
+    text-align: right;
+    padding: 0.25em;
+}
+#main .header #advanced_search {
+    display: none;
+    background: #fff;
+    width: 600px;
+    position: absolute;
+    top: 2.75em;
+    right: 0;
+}
+.content table tr.even td {
+    background: #EFF7FA;
+}
+.content table tr.odd td {
+    background: #ffffff;
+}
+
+.content {
+    margin: 1em;
+}
+.content .flash_message {
+    margin: 0.5em;
+    padding: 1em;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    background: #EFF7FA;
+}
+.content p {
+    margin: 0.75em 0 0.75em 0;
+}
+.content form fieldset {
+    border: 1px solid #666;
+}
+.content form fieldset ul.fields {
+}
+.content form fieldset ul.fields li {
+    list-style: none;
+    position: relative;
+    min-height: 2.25em;
+}
+.content form fieldset ul.fields li.field label {
+    float: left;
+    display: block;
+    width: 24ex;
+    padding-right: 0.5em;
+    text-align: right;
+}
+.content form fieldset ul.fields li.error label {
+    color: red;
+}
+.content form fieldset ul.fields li.field textarea.textarea,
+.content form fieldset ul.fields li.field input.text,
+.content form fieldset ul.fields li.field input.password {
+    width: 60ex;
+}
+.content form fieldset ul.fields li.field textarea.textarea {
+    height: 4em;
+    margin: 0 0 1em 0;
+}
+.content form fieldset ul.fields li.field input.captcha {
+    width: 25ex;
+    display: block;
+    margin: 0 0 1.5em 31ex;
+}
+.content form fieldset ul.fields li.error textarea.textarea,
+.content form fieldset ul.fields li.error input.text,
+.content form fieldset ul.fields li.error input.captcha,
+.content form fieldset ul.fields li.error input.password {
+    background: #fee;
+}
+.content form fieldset ul.fields li.error p.error {
+    margin: 0.25em 0 0.5em 26ex;
+    padding: 0;
+}
+.content form fieldset ul.fields li.field p.notes {
+    margin: 0.25em 0 0.5em 26ex;
+    padding: 0;
+}
+
+.index_home .listing {
+    margin: 1.5em 0 0 0;
+}
+.index_home .listing .listing_content {
+    padding: 0.75em 1.75em 0.75em 1.75em;
+    margin: 0 0 0 0;
+    background: #fff;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.index_home .listing ul {
+    list-style: none;
+}
+.index_home .listing .count {
+    float: left;
+    width: 4ex;
+    text-align: right;
+    padding-right: 0.5em;
+}
+.index_home .listing ul.counts li {
+    line-height: 1.75em;
+}
+.index_home .listing ul.nav {
+    list-style: none;
+    margin: 0 0 0 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+}
+.index_home .listing ul.nav li {
+    border: 1px solid #ccc;
+    float: left;
+}
+.index_home .listing .counts li {
+    margin: 0 0 0 0;
+}
+.index_home .listing ul.nav li {
+    margin: 0 0.5em -1px 0;
+}
+.index_home .listing ul.nav li.selected {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+}
+.index_home .listing ul.nav li.selected span {
+    display: block;
+    margin: 0 0 0 0;
+    padding: 0.25em 0.75em 0.25em 0.75em;
+}
+.index_home .listing ul.nav li a {
+    display: block;
+    padding: 0.25em 0.75em 0.25em 0.75em;
+    background-color: #eff7fa;
+    text-decoration: none;
+    color: #888;
+}
+.index_home .listing ul.nav li a:hover {
+    background-color: #fff;
+    color: #666;
+}
+.index_home .listing .installed_plugins {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    width: 100%;
+}
+.noJS .listing .installed_plugins {
+    display: none; /* This will be overridden in JS */
+}
+.hasJS .listing .installed_plugins_warning {
+    display: none; /* This will be overridden in JS */
+}
+.index_home .listing .installed_plugins thead th {
+    text-align: left;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+}
+.index_home .listing .installed_plugins tbody td {
+    text-align: left;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+/*
+.index_home .listing .installed_plugins tbody tr.from_sandbox td {
+    background-color: #eee;
+}
+    */
+.index_home .listing .installed_plugins tbody tr.from_sandbox td.name {
+    background-color: #eee;
+    font-weight: bold;
+}
+.index_home .listing .installed_plugins tbody tr.from_sandbox td.name:after {
+    content: " (from sandbox)";
+}
+.index_home .listing .installed_plugins tbody tr td.new_release select {
+    width: 85%;
+}
+
+#ctrl_plugins_act_submissions .submissions table {
+    width: 100%;
+}
+#ctrl_plugins_act_submissions .submissions thead th {
+    text-align: left;
+    padding: 0.5em;
+}
+#ctrl_plugins_act_submissions .submissions tbody td {
+    padding: 0.5em;
+}
+#ctrl_plugins_act_submissions .submissions tbody td.name a {
+    display: block;
+    height: 100%;
+    min-width: 5ex;
+    text-align: center;
+}
+
+#ctrl_plugins_act_detail ul.releases {
+    list-style: none;
+    margin: 0; padding: 0;
+}
+#ctrl_plugins_act_detail ul.releases li.release {
+}
+#ctrl_plugins_act_detail ul.releases li.release .version {
+    font-size: 130%;
+    font-weight: bold;
+    padding: 0.25em 0.5em;
+    margin: 0.5em 0 0 0.5em;
+    border: 1px solid #ccc;
+    background: #eee;
+}
+#ctrl_plugins_act_detail ul.releases li.release table.version_releases {
+    margin: 0.5em 1.5em 0.5em 1.5em;
+    width: 70%;
+}
+#ctrl_plugins_act_detail ul.releases li.release table.version_releases thead th {
+    text-align: left;
+    padding: 0.25em 0.5em 0.125em 0.5em;
+    border-bottom: 2px solid #333;
+}
+#ctrl_plugins_act_detail ul.releases li.release table.version_releases tbody td {
+    padding: 0.25em 0.5em 0.125em 0.5em;
+}
+
+#ctrl_search_act_results table.releases {
+    margin: 0.5em 1.5em 0.5em 1.5em;
+}
+#ctrl_search_act_results table.releases thead th {
+    text-align: left;
+    padding: 0.25em 0.5em 0.125em 0.5em;
+    border-bottom: 2px solid #333;
+}
+#ctrl_search_act_results table.releases tbody td {
+    padding: 0.25em 0.5em 0.25em 0.5em;
+}
+
+
+#ctrl_plugins_act_edit fieldset {
+    margin: 0.5em 0.5em 0.5em 1em;
+    padding: 0.5em 0.5em 0.5em 0.75em;
+    border: 1px solid #666;
+}
+#ctrl_plugins_act_edit fieldset legend {
+    cursor: pointer;
+    border: 1px solid #333;
+    background: #eee;
+    padding: 0.125em 0.5em;
+    margin: 0 0 0 -0.825em;
+}
+#ctrl_plugins_act_edit fieldset.closed legend {
+    margin: 0 0 0 -0.25em;
+}
+#ctrl_plugins_act_edit fieldset legend:hover {
+    background: #fff;
+}
+#ctrl_plugins_act_edit fieldset legend:before {
+    content: '[ - ] ';
+}
+#ctrl_plugins_act_edit fieldset.closed legend:before {
+    content: '[ + ] ';
+}
+#ctrl_plugins_act_edit fieldset.closed {
+    padding: 0;
+}
+#ctrl_plugins_act_edit #releases fieldset.closed {
+    border: none;
+}
+#ctrl_plugins_act_edit fieldset.closed ul {
+    display: none;
+}
+#ctrl_plugins_act_edit ul#releases {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+#ctrl_plugins_act_edit ul#releases li.release {
+    list-style-type: none;
+}
+#ctrl_plugins_act_edit ul.fields {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+#ctrl_plugins_act_edit ul.controls {
+    list-style-type: none;
+    padding: 0 0 0em 0;
+    margin: 0 0 0em 0;
+    font-size: 0.85em;
+    height: 2.5em;
+}
+#ctrl_plugins_act_edit .release ul.controls {
+    margin: 0.25em 0 1em 0;
+}
+#ctrl_plugins_act_edit ul.controls li {
+    margin: 0 1em 0 0;
+    padding: 0.25em 0.5em;
+    border: 1px solid #ccc;
+    float: left;
+}
+#ctrl_plugins_act_edit ul.fields li.field {
+    position: relative;
+    list-style-type: none;
+    min-height: 2.5em;
+}
+#ctrl_plugins_act_edit ul.fields li.field label {
+    display: block;
+    font-size: 1em;
+    width: 22ex;
+    padding: 0.125em 1em 0.125em 1em;
+    float: left;
+    text-align: right;    
+}
+#ctrl_plugins_act_edit ul.fields li.field input.text {
+    width: 55ex;
+}
+#ctrl_plugins_act_edit ul.fields li.field p.notes {
+    position: absolute;
+    font-size: 0.8em;
+    top: 0em;
+    left: 95ex;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+#ctrl_plugins_act_edit ul.fields li.textarea {
+    min-height: 5em;
+}
+#ctrl_plugins_act_edit ul.fields li.field textarea {
+    width: 55ex;
+    height: 5em;
+    padding: 2px;
+}
+#ctrl_plugins_act_submission_detail dl.submission {
+    border: 1px solid #333;
+    background: #fff;
+    margin: 0.5em;
+    padding: 1em;
+}
+#ctrl_plugins_act_submission_detail dl.submission dt {
+    float: left;
+    width: 24ex;
+    text-align: right;
+    margin: 0;
+    padding: 0.25em 0 0.25em 0;
+    line-height: 1.5em;
+}
+#ctrl_plugins_act_submission_detail dl.submission dt:after {
+    content: ":";
+}
+#ctrl_plugins_act_submission_detail dl.submission dd {
+    margin: 0;
+    padding: 0.25em 0.25em 0.25em 25ex;
+    line-height: 1.5em;
+}
+#ctrl_plugins_act_submission_detail dl.submission .even {
+    background: #EFF7FA;
+}
+#ctrl_plugins_act_submission_detail dl.submission .odd {
+    background: #ffffff;
+}

@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% import "index/index_shell.html" as this %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block js_includes %}
+    {% parent %}
+    <script type="text/javascript" src="{{base_url}}js/PluginDir/Index.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="index_home">
+
+    <div class="intro">
+        <h2>Welcome to the Mozilla Plugin Directory</h2>
+        <p>
+            This site is an attempt to collect and provide information about
+            third-party browser plugins installed by people across the web.  
+        </p>
+        <p>
+            Using our plugin detection service, you can check to see if your
+            plugins are up to date (as far as we know) or if you may be
+            vulnerable to any problems or security issues.
+        </p>
+        <p>
+            We can also use your help:  If you are a plugin vendor, or simply
+            know something we don't know about a plugin, you can help us by
+            submitting suggested updates to this database along with information
+            we've detected about your browser and installed plugins.
+        </p>
+        <p>
+            If you want to get even more involved, you can sign up for a
+            profile.  This will give you access to a sandbox in which to 
+            edit plugin records, test them against our detection code in 
+            browsers, and submit changes to our editors for
+            approval and inclusion in the database.
+        </p>
+    </div>
+
+    <div class="listing">
+
+        <ul class="nav clearfix">
+
+            {% macro nav_item(base_url, name, path, label, selected) %}
+                <li class="{{ (name == selected) ? 'selected' : '' }}">
+                    {% if name == selected %}
+                        <span>{{label}}</span>
+                    {% else %}
+                        <a href="{{base_url}}{{path}}">{{label}}</a>
+                    {% endif %}
+                </li>
+            {% endmacro %}
+
+            {{ this.nav_item(base_url, 'installed', '?by=installed', 'Your Installed Plugins', by_cat) }}
+            {% if is_logged_in %}
+                {{ this.nav_item(base_url, 'sandbox', 'profiles/' ~ authprofile.screen_name|urlencode|e ~ '/plugins', 'Your Sandbox', by_cat, authprofile.screen_name) }}
+            {% endif %}
+            {% if authprofile.is_allowed('plugin', 'view_submissions') %}
+                {{ this.nav_item(base_url, 'submissions', 'plugins/submissions', 'Submissions', by_cat) }}
+            {% endif %}
+            {{ this.nav_item(base_url, 'name', '?by=name', 'By Name', by_cat) }}
+            {{ this.nav_item(base_url, 'application', '?by=application', 'By Application', by_cat) }}
+            {{ this.nav_item(base_url, 'os', '?by=os', 'By Operating System', by_cat) }}
+        </ul>
+
+        <div class="listing_content">{% block index_content %}{% endblock %}</div>
+
+    </div>
+
+</div>
+{% endblock %}

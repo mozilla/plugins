@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% import "macros/platforms.html" as platforms %}
+{% import "macros/oses.html" as oses %}
+{% import "macros/statuses.html" as statuses %}
+
+{% block title %}
+    Search Results
+{% endblock %}
+
+{% block content %}
+    <table class="releases">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Version</th>
+                <th>Platform</th>
+                <th>OS</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for release in releases %}
+                <tr>
+                    <td><a href="{{base_url}}plugins/detail/{{release.plugin.pfs_id|urlencode|e}}">{{release.plugin.name}}</a></td>
+                    <td><a href="{{base_url}}plugins/detail/{{release.plugin.pfs_id|urlencode|e}}#{{release.version|urlencode|e}}">{{release.version}}</a></td>
+                    <td>{{platforms.readable(release.platform)}}</td>
+                    <td>{{oses.readable(release.os)}}</td>
+                    <td>{{statuses.readable(release.status_code)}}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">
+                    <p>No search results, please change your search terms and try again.</p>
+                </td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

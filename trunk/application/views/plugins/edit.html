@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% import "macros/platforms.html" as platforms %}
+{% import "macros/oses.html" as oses %}
+{% import "macros/statuses.html" as statuses %}
+
+{% block title %}
+    Plugin Editor :: {{plugin.name | e}}
+{% endblock %}
+
+{% block js_includes %}
+    {% parent %}
+    <script type="text/javascript" src="{{base_url}}js/PluginDir/Editor.js"></script>
+{% endblock %}
+
+{% block js_defines %}
+    {% parent %}
+    PluginDir.Editor.json_url = 
+    {% if plugin.sandbox_profile_id %}
+       "{{base_url}}profiles/{{screen_name|e}}/plugins/detail/{{plugin.pfs_id|e}}.json";
+    {% else %}
+       "{{base_url}}plugins/detail/{{plugin.pfs_id|e}}.json";
+    {% endif %}
+    PluginDir.Editor.plugin_properties = {{ properties | json }};
+{% endblock %}
+
+{% block content %}
+    {% if plugin.sandbox_profile_id %}
+        {% set plugin_base as base_url ~ "profiles/" ~ screen_name|e ~ "/plugins/detail/" ~ plugin.pfs_id|urlencode|e %}
+    {% else %}
+        {% set plugin_base as base_url ~ "plugins/detail/" ~ plugin.pfs_id|urlencode|e %}
+    {% endif %}
+
+    <form id="editor">
+
+        <fieldset>
+            <legend>Options</legend>
+            <ul class="fields">
+                <li>
+                    <button id="save">Save now</button>
+                    <input type="checkbox" checked id="autosave" /><span>Autosave</span>
+                    —
+                    <span id="save_message"></span>
+                    —
+                    <a href="{{plugin_base}}" target="_new">Plugin details</a>
+                    —
+                    <a href="{{plugin_base}}.json" target="_new">Saved JSON data</a>
+                    —
+                    <a href="" id="json-out-link" target="_new">Current JSON data</a>
+                </li>
+            </ul>
+        </fieldset>
+
+        <fieldset>
+            <legend>Plugin metadata and release defaults</legend>
+            <ul class="controls">
+                <li>
+                    <a href="#" class="show">Show</a> /
+                    <a href="#" class="hide">Hide</a>
+                    empty properties.
+                </li>
+            </ul>
+            <ul id="meta-fields" class="fields"></ul>
+        </fieldset>
+
+        <fieldset>
+            <legend>MIME types and aliases</legend>
+            <ul id="mimes_aliases" class="fields">
+                <li class="field textarea mimes">
+                    <label>MIME types</label>
+                    <textarea name="mimes" id="mimes"></textarea>
+                    <p class="notes">MIME types of content handled by this plugin</p>
+                </li>
+                <li class="field textarea literal_aliases">
+                    <label>Literal aliases</label>
+                    <textarea name="literal_aliases" id="literal_aliases"></textarea>
+                    <p class="notes">The literal names by which this plugin has been known</p>
+                </li>
+                <li class="field textarea regex_aliases">
+                    <label>Regex aliases</label>
+                    <textarea name="regex_aliases" id="regex_aliases"></textarea>
+                    <p class="notes">Regexes matching names by which this plugin has been known</p>
+                </li>
+            </ul>
+        </fieldset>
+
+        <fieldset>
+            <legend>Releases</legend>
+            <ul class="controls">
+                <li><a href="#" id="add_blank_release">[ + ] Add new release</a></li>
+            </ul>
+            <ul id="releases">
+            </ul>
+        </fieldset>
+
+    </form>
+
+    <div class="templates">
+
+        <ul class="releases">
+            <li class="release">
+                <fieldset class="closed">
+                    <legend>Release</legend>
+                    <ul class="controls">
+                        <li>
+                            <a href="#" class="show">Show</a> /
+                            <a href="#" class="hide">Hide</a>
+                            empty properties.
+                        </li>
+                        <li>
+                            <a href="#" class="delete">[ x ] Delete release</a>
+                        </li>
+                    </ul>
+                    <ul class="fields"></ul>
+                </fieldset>
+            </li>
+        </ul>
+
+        <ul class="fields">
+
+            <li class="field template text">
+                <label>...</label>
+                <input class="text" type="text" size="40" name="..." />
+                <p class="notes">...</p>
+            </li>
+
+            <li class="field template textarea">
+                <label>...</label>
+                <textarea name="..." class="textarea"></textarea>
+                <p class="notes">...</p>
+            </li>
+
+            <li class="field template status">
+                <label>...</label>
+                <select name="..." class="select">
+                    {% for v,l in status_choices %}
+                        <option value="{{v|e}}">{{l|e}}</option>
+                    {% endfor %}
+                </select>
+                <p class="notes">...</p>
+            </li>
+
+        </ul>
+
+    </div>
+
+{% endblock %}

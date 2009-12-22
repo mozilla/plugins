@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% import "macros/platforms.html" as platforms %}
+{% import "macros/oses.html" as oses %}
+{% import "macros/statuses.html" as statuses %}
+{% import "macros/forms.html" as forms %}
+
+{% block title %}
+    Submit plugin info
+{% endblock %}
+
+{% block content %}
+    {% if saved %}
+        <p>Your plugin data submission has been accepted, thank you!</p>
+    {% else %}
+
+        <form class="contribute" action="{{base_url}}plugins/submit" method="post">
+            {% set data, errors as form_data, form_errors %}
+
+            {{ forms.hidden(data, errors, 'detected_version', _GET.version) }}
+            
+            {{ forms.fieldset('Plugin details', 'plugin_details') }}
+        
+                <li><p>
+                    This form will {{ is_logged_in ? '' : 'anonymously' }}
+                    submit details detected about this plugin and your browser,
+                    along with the following fields that you may modify to suggest
+                    corrections.
+                </p></li>
+
+                {{ forms.dropdown(data, errors, 'status', 'Status', status_choices) }}
+                {{ forms.input(data, errors, 'text', 'vulnerability_url', 'Vulnerability URL') }}
+                {{ forms.textarea(data, errors, 'vulnerability_description', 'Vulnerability description') }}
+                {{ forms.input(data, errors, 'text', 'vendor', 'Vendor') }}
+                {{ forms.input(data, errors, 'text', 'name', 'Name') }}
+                {{ forms.input(data, errors, 'text', 'version', 'Version') }}
+                {{ forms.textarea(data, errors, 'description', 'Description') }}
+                {{ forms.textarea(data, errors, 'comments', 'Comments') }}
+
+                {{ forms.captcha(data, errors, 'captcha', 'Captcha') }}
+                
+                {{ forms.submit('submit', '', 'Submit') }}
+
+                <li>
+                    <p>Also submitting the following additional information:</p>
+                    <dl>
+                        {% if is_logged_in %}
+                            <dt>screen_name</dt>
+                            <dd>
+                                {{ authprofile.screen_name | e}}
+                                {{ forms.hidden(data, errors, 'screen_name', authprofile.screen_name) }}
+                            </dd>
+                        {% endif %}
+                        {% for name in 'pfs_id filename appID appRelease appVersion clientOS chromeLocale mimetypes' | explode %}
+                            <dt>{{ name | e }}</dt>
+                            <dd>
+                                {{ data[name] | e }}
+                                {{ forms.hidden(data, errors, name) }}
+                            </dd>
+                        {% endfor %}
+                    </dl>
+                </li>
+                
+            {{ forms.endfieldset() }}
+
+        </form>
+
+    {% endif %}
+
+{% endblock %}
