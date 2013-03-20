@@ -456,6 +456,112 @@ class Plugin_Model extends ORM_Resource {
         Database::enable_read_shadow();
         return $plugin;
     }
+    
+    public function pfs_lookup(array $criteria = array()) {
+        $resultArray = array(
+            'name' => '-1',
+            'mimetype' => -1,
+            'guid' => -1,
+            'xpi_location' => '',
+            'installer_location' => '',
+            'icon_url' => '',
+            'installer_hash' => '',
+            'installer_shows_ui' => '',
+            'manual_installation_url' => '',
+            'license_url' => '',
+            'needs_restart' => 'true',
+            'version' => '',
+        );
+        
+        // Clean up the OS parameters.
+        
+        $os = $criteria['clientOS'];
+        
+        switch($os) {
+            
+            case !strncasecmp($os, 'Win', 3):
+                $os = 'Windows';
+                break;
+                
+            case !strncasecmp($os, 'Intel', 5):
+                $os = 'Intel Mac OS X';
+                break;
+                
+            case !strncasecmp($os, 'PPC', 3):
+                $os = 'PPC Mac OS X';
+                break;
+            
+            case strncasecmp($os, 'Linux', 5):
+                $os = 'Linux';
+                break;
+            
+            default:
+                return $resultArray;
+                break;
+        }
+        
+        // This is now clean so we can use it directly in our SQL.
+        $criteria['clientOS'] = $os;
+        
+        $query = 
+            "SELECT 
+                pr.id, 
+                pr.plugin_id, 
+                pr.status_code, 
+                pr.os_id, 
+                pr.guid, 
+                pr.xpi_location, 
+                pr.installer_location, 
+                pr.icon_url, 
+                pr.needs_restart, 
+                pr.installer_shows_ui, 
+                pr.version, 
+                pr.installer_hash,
+                pr.license_url,
+                pr.name,
+                mm.name as mimetype
+            FROM plugin_releases pr 
+            LEFT JOIN mimes_plugins mp ON mp.plugin_id = pr.plugin_id 
+            LEFT JOIN mimes mm ON mp.mime_id = mm.id 
+            LEFT JOIN platforms ON platforms.id = pr.platform_id 
+            WHERE 
+                platforms.app_id = '*' AND 
+                mm.name = %s AND 
+                pr.status_code = 10 AND os_id IN (SELECT id FROM oses WHERE name LIKE '%%$criteria[clientOS]%%')";
+
+        $result = $this->db->query(sprintf($query, $this->db->escape( $criteria['mimetype'] ) ) );
+        $resultsArr = $result->result_array();
+        
+        // Let's see if we got more than one result and then pick one to return
+        if(count($resultsArr) == 1) {
+            // Ok, we have more than one. Let's compare on version.
+            $multiArray = array();
+            foreach($resultsArr as $oneresult) {
+                $multiArray[] = $oneresult->version;
+            }
+            
+            array_multisort($multiArray, SORT_DESC);
+            $version = array_shift($multiArray);
+            
+            foreach($resultsArr as $onersult) {
+                if($oneresult->version == $version) {
+                    $finalResult = (array)$oneresult;
+                    break;
+                }
+            }            
+        } else {
+            $finalResult = (array)$resultsArr[0];
+        }
+                
+        $return = array_merge($resultArray, $finalResult);
+        
+        // Special cases, transform to true/false
+        
+        $return['needs_restart'] = ($return['needs_restart'] == 1) ? 'true' : 'false';
+        $return['installer_shows_ui'] = ($return['installer_shows_ui'] == 1) ? 'true' : 'false';
+        
+        return $return;
+    }
 
     /**
      * Perform DB lookup based on criteria from parameters
@@ -1212,7 +1318,7 @@ Plugin_Model::$properties = array(
     'modified' => array( 
         'type' => 'text', 
         'description' => _("Timestamp when last the release record was modified") 
-    )
+    ),
 );
 
 // }}}
