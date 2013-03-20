@@ -31,6 +31,8 @@ $config['plugins/submissions/(.*)'] = 'plugins/submission_detail/$1';
 $config['plugins/(.*)'] = 'plugins/$1';
 
 $config['pfs/v2'] = 'search/pfs_v2';
+$config['pfs/v1'] = 'search/pfs_v1';
+
 
 $config['home'] =     'auth_profiles/home';
 $config['register'] = 'auth_profiles/register';
